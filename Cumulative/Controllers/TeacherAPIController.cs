@@ -51,7 +51,6 @@ namespace Cumulative.Controllers
                     while (ResultSet.Read())
                     {
                         int Id = Convert.ToInt32(ResultSet["teacherid"]);
-                        string FirstName = ResultSet["teacherfname"].ToString();
                         string LastName = ResultSet["teacherlname"].ToString();
                         string EmployeeNumber = ResultSet["employeenumber"].ToString();
                         DateTime HireDate = Convert.ToDateTime(ResultSet["hiredate"]);
@@ -62,7 +61,7 @@ namespace Cumulative.Controllers
                         Teacher CurrentTeacher = new Teacher()
                         {
                             TeacherId = Id,
-                            TeacherFName = FirstName,
+                            TeacherFName = ResultSet["teacherfname"].ToString(),
                             TeacherLName = LastName,
                             EmployeeNumber = EmployeeNumber,
                             HireDate = HireDate,

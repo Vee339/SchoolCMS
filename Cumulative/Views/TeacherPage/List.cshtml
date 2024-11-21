@@ -4,5 +4,5 @@
 
 @foreach(Cumulative.Models.Teacher CurrentTeacher in Model)
 {
-    <div><a href="/Teacher/Show/@CurrentTeacher.TeacherId">@CurrentTeacher.TeacherFName</a></div>
+    <div><a href="/TeacherPage/Show/@CurrentTeacher.TeacherId">@CurrentTeacher.TeacherFName @CurrentTeacher.TeacherLName</a></div>
 }
