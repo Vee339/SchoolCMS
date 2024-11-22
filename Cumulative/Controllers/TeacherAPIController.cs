@@ -18,10 +18,10 @@ namespace Cumulative.Controllers
         }
 
         /// <summary>
-        /// Returns information about all the teachers
+        /// Returns a list of all the teachers in the database
         /// </summary>
         /// <example>
-        /// GET api/teacher/GiveTeachersList -> ["","","","",""]
+        /// GET api/teacher/ListTeachers -> [{"teacherId":1,"teacherFName":"Alexander","teacherLName":"Bennett","employeeNumber":"T378","hireDate":"2016-08-05T00:00:00","salary":55.30},{"teacherId":2,"teacherFName":"Caitlin","teacherLName":"Cummings","employeeNumber":"T381","hireDate":"2014-06-10T00:00:00","salary":62.77},{"teacherId":3,"teacherFName":"Linda","teacherLName":"Chan","employeeNumber":"T382","hireDate":"2015-08-22T00:00:00","salary":60.22},{"teacherId":4,"teacherFName":"Lauren","teacherLName":"Smith","employeeNumber":"T385","hireDate":"2014-06-22T00:00:00","salary":74.20},{"teacherId":5,"teacherFName":"Jessica","teacherLName":"Morris","employeeNumber":"T389","hireDate":"2012-06-04T00:00:00","salary":48.62},{"teacherId":6,"teacherFName":"Thomas","teacherLName":"Hawkins","employeeNumber":"T393","hireDate":"2016-08-10T00:00:00","salary":54.45},{"teacherId":7,"teacherFName":"Shannon","teacherLName":"Barton","employeeNumber":"T397","hireDate":"2013-08-04T00:00:00","salary":64.70},{"teacherId":8,"teacherFName":"Dana","teacherLName":"Ford","employeeNumber":"T401","hireDate":"2014-06-26T00:00:00","salary":71.15},{"teacherId":9,"teacherFName":"Cody","teacherLName":"Holland","employeeNumber":"T403","hireDate":"2016-06-13T00:00:00","salary":43.20},{"teacherId":10,"teacherFName":"John","teacherLName":"Taram","employeeNumber":"T505","hireDate":"2015-10-23T00:00:00","salary":79.63}]
         /// </example>
         /// <returns>
         /// A list of the teachers 
@@ -81,12 +81,14 @@ namespace Cumulative.Controllers
         /// </summary>
         /// <param name="TeacherId">The primary key of the teachers table.</param>
         /// <example>
-        /// GET api/teacher/GiveTeacherInfo/5 -> {"":"","":"","":""} 
+        /// GET api/teacher/GiveTeacherInfo/5 -> {"teacherId":5,"teacherFName":"Jessica","teacherLName":"Morris","employeeNumber":"T389","hireDate":"2012-06-04T00:00:00","salary":48.62}
+        /// GET api/teacher/GiveTeacherInfo/2 -> {"teacherId":2,"teacherFName":"Caitlin","teacherLName":"Cummings","employeeNumber":"T381","hireDate":"2014-06-10T00:00:00","salary":62.77}
+        /// GET api/teacher/GiveTeacherInfo/8 -> {"teacherId":8,"teacherFName":"Dana","teacherLName":"Ford","employeeNumber":"T401","hireDate":"2014-06-26T00:00:00","salary":71.15}
         /// </example>
         /// <returns>
         /// All the information about one teacher
         /// </returns>
-      
+
         [HttpGet]
         [Route(template:"GiveTeacherInfo/{TeacherId}")]
         public Teacher GiveTeacherInfo(int TeacherId)
@@ -111,6 +113,8 @@ namespace Cumulative.Controllers
                     //Loop Through Each Row of the Result Set
                     while (ResultSet.Read())
                     {
+
+                        // Setting the properties of SelectedTeacher to the values from the database
                         SelectedTeacher.TeacherId = Convert.ToInt32(ResultSet["teacherid"]);
                         SelectedTeacher.TeacherFName = ResultSet["teacherfname"].ToString();
                         SelectedTeacher.TeacherLName = ResultSet["teacherlname"].ToString();
