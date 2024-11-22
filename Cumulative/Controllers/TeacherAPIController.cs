@@ -91,7 +91,7 @@ namespace Cumulative.Controllers
         [Route(template:"GiveTeacherInfo/{TeacherId}")]
         public Teacher GiveTeacherInfo(int TeacherId)
         {
-
+            Console.WriteLine(TeacherId);
             Teacher SelectedTeacher = new Teacher();
 
             // 'using' will close the connection after the code executes
@@ -103,6 +103,7 @@ namespace Cumulative.Controllers
 
                 //SQL QUERY;
                 Command.CommandText = $"SELECT * FROM teachers WHERE teacherid = {TeacherId}";
+                //Command.CommandText = $"SELECT * FROM teachers WHERE teacherid = 4";
 
                 // Gather Result Set of Query into the Teacher 
                 using (MySqlDataReader ResultSet = Command.ExecuteReader())
@@ -120,7 +121,7 @@ namespace Cumulative.Controllers
                     }
                 }
             }
-
+            
             return SelectedTeacher;
         }
     }
