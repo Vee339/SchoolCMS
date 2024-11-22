@@ -16,6 +16,8 @@ builder.Services.AddScoped<TeacherAPIController>();
 
 builder.Services.AddScoped<StudentAPIController>();
 
+builder.Services.AddScoped<CourseAPIController>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
