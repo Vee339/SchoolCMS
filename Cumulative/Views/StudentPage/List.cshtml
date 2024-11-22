@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Cumulative.Models.Student>
+
+<h1>This page gives the list of all the students</h1>
+
+@foreach(Cumulative.Models.Student CurrentStudent in Model)
+{
+    <div><a href="/StudentPage/Show/@CurrentStudent.StudentId">@CurrentStudent.StudentFName @CurrentStudent.StudentLName</a></div>
+}

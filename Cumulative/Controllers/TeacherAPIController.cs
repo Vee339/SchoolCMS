@@ -93,7 +93,6 @@ namespace Cumulative.Controllers
         [Route(template:"GiveTeacherInfo/{TeacherId}")]
         public Teacher GiveTeacherInfo(int TeacherId)
         {
-            Console.WriteLine(TeacherId);
             Teacher SelectedTeacher = new Teacher();
 
             // 'using' will close the connection after the code executes

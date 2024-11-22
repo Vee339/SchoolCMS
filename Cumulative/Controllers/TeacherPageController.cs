@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Cumulative.Models;
-using Cumulative.Controllers;
-using Google.Protobuf.WellKnownTypes;
-using System.ComponentModel.DataAnnotations;
 
 namespace Cumulative.Controllers
 {
