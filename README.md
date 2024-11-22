@@ -1,6 +1,6 @@
 # ASP.NET Core School CMS
 
-This a project based on the database of a school which includes information about **Students**, **Teachers** and **Courses**.
+This is a project based on the database of a school which includes information about **Students**, **Teachers** and **Courses**.
 
 The MVP includes the CRUD (Create, Read, Update, Delete) functionality for the School Database and integrates API endpoints, server-rendered views, and dynamic routing.
 
