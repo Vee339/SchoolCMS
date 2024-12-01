@@ -1,10 +1,10 @@
 # ASP.NET Core School CMS
 
-This is a project based on the database of a school which includes information about **Students**, **Teachers** and **Courses**.
+This is a CMS project for a school. The entities includes information about **Students**, **Teachers** and **Courses**.
 
 The MVP includes the CRUD (Create, Read, Update, Delete) functionality for the School Database and integrates API endpoints, server-rendered views, and dynamic routing.
 
-## The main components are: 
+## The main components are:
 
 ### 1. Database Connection
 
@@ -12,39 +12,42 @@ The **SchoolDbContext.cs** establish the SQL server.
 
 ### 2. API Controller
 
-The Web API Controller **TeacherAPIController.cs** provide endpoints for accessing the teachers information.
+The Web API Controllers such as **TeacherAPIController.cs**, **SchoolAPIController.cs** and **CourseAPIController.cs** provide endpoints for accessing and modifying the data.
 
 ### 3. MVC Controller
 
-A MVC Controller **TeacherPageController.cs** is used for routing to dynamic pages.
+The MVC Controllers (**TeacherPageController**, **StudentPageController**, **CoursePageController**) are used for routing to dynamic pages.
 
-### 4. Model 
+### 4. Model
 
-A model class representing the structure of a table in the database.
+The model classes represent the structure of the tables in the database.
 
 ### 5. Views
 
-- List View: Displays the list of all the teachers.
+(_example for teachers_, other follow a similar pattern)
 
-- Show View: Display all the information about a particular teacher.
+In TeacherPage folder:
 
+- List: Displays the list of all the teachers.
+
+- Show: Display all the information about a particular teacher.
+
+- New: Allows user to add information about a new teacher
+
+- Create: Add a new row in teachers table in database
+
+- ConfirmDelete: Confirm from the user if they really want to delete the record
+
+- Delete: Deletes the record from the database
 
 ## Features and Functionality
 
 ### API Endpoints
 
-GET /api/teachers: Returns all teachers.
+GET /api/teacher/ListTeachers: Returns all teachers.
 
-GET /api/teachers/{id}: Returns a teacher by ID.
+GET /api/teachers/GiveTeacherInfo/{TeacherId}: Returns a teacher by ID.
 
-POST /api/teachers: Adds a new teacher.
+POST /api/teachers/AddTeacher: Adds a new teacher.
 
-PUT /api/teachers/{id}: Updates an existing teacher.
-
-DELETE /api/teachers/{id}: Deletes a teacher by ID.
-
-### Dynamic Views
-
-Teacher List Page (/Teacher/List): Server-rendered page displaying all teachers.
-
-Teacher Detail Page (/Teacher/Show/{id}): Server-rendered page showing details for a specific teacher.
+DELETE /api/teachers/DeleteTeacher/{TeacherId}: Deletes a teacher by ID.
