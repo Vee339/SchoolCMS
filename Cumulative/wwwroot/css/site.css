@@ -20,3 +20,41 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+a.add-btn{
+    text-decoration:none;
+    color:white;
+}
+
+.btn {
+    display:block;
+    width: 200px;
+    height: 40px;
+    text-transform:uppercase;
+    text-align:center;
+    line-height:30px;
+    background: #4CC9FE;
+    border-radius: 20px;
+    padding: 5px;
+    margin: 30px 0;
+    box-shadow: 3px 3px 0 #37AFE1;
+    transition:all 0.3s;
+}
+a.btn:active{
+    transform:translate(0, 3px);
+    box-shadow: 0 0 0 #37AFE1;
+}
+.inputBox{
+    width:500px;
+    margin:10px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.inputBox input{
+    width:200px;
+}
+.btn.delete {
+    background: #F95454;
+    box-shadow: 3px 3px 0 #C62E2E;
+}

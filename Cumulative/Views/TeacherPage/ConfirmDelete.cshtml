@@ -1,0 +1,6 @@
+﻿@model Cumulative.Models.Teacher
+
+<h1>Are you sure you want to delete teacher - @Model.TeacherFName @Model.TeacherLName</h1>
+
+<a href="/TeacherPage/Show/@Model.TeacherId">No, return back.</a>
+<a href="/TeacherPage/Delete/@Model.TeacherId" class="delete btn">Confirm Delete</a>
