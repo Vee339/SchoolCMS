@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Cumulative.Models;
+using System.Diagnostics;
 
 namespace Cumulative.Controllers
 {
@@ -37,6 +38,62 @@ namespace Cumulative.Controllers
 
             return View(SelectedTeacher);
            
+        }
+
+        // GET: TeacherPage/New -> A webpage that allows the user to add a new teacher into the database
+
+        [HttpGet]
+        [Route("TeacherPage/New")]
+        public IActionResult New()
+        {
+            // Direct the user to /Views/TeacherPage/New.cshtml
+            return View();
+        }
+
+        // POST: ArticlePage/Create -> 
+        // Request Header: Content-type: application/x-www-url-formencoded
+        // Request Body:
+        // TeacherFName = {first_name}, TeacherLName = {last_name}, EmployeeNumber={employee_number}, HireDate={hire_date}, Salary={salary}
+
+        [HttpPost]
+        [Route("TeacherPage/Create")]
+        public IActionResult Create(string first_name, string last_name, string employee_number, DateOnly hire_date, decimal salary)
+        {
+            //Debug.WriteLine($"First Name: {first_name}");
+            //Debug.WriteLine($"Last Name: {last_name}");
+            //Debug.WriteLine($"Employee Number: {employee_number}");
+            //Debug.WriteLine($"Hire Date: {hire_date}");
+            //Debug.WriteLine($"Salary: {salary}");
+            Teacher AddedTeacher = new Teacher();
+
+            AddedTeacher.TeacherFName = first_name;
+            AddedTeacher.TeacherLName = last_name;
+            AddedTeacher.EmployeeNumber = employee_number;
+            AddedTeacher.Salary = salary;
+
+            _api.AddTeacher(AddedTeacher);
+
+            // direct the user to the create view
+            return View();
+        }
+
+        [HttpGet]
+        [Route("TeacherPage/ConfirmDelete/{id}")]
+        public IActionResult ConfirmDelete(int id)
+        {
+            Teacher SelectedTeacher = _api.GiveTeacherInfo(id);
+
+            return View(SelectedTeacher);
+        }
+
+        [HttpGet]
+        [Route("TeacherPage/Delete/{id}")]
+
+        public IActionResult Delete(int id)
+        {
+            _api.DeleteTeacher(id);
+
+            return View();
         }
     }
 }

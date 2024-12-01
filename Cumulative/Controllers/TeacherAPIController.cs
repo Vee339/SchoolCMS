@@ -127,5 +127,88 @@ namespace Cumulative.Controllers
             
             return SelectedTeacher;
         }
+        /// <summary>
+        /// This API Controller takes the information about a teacher and insert into the teachers table in the database.
+        /// </summary>
+        /// <example>
+        /// POST
+        /// 
+        /// Request body:
+        /// 
+        ///{"TeacherFName":"John","TeacherLName":"Doe","EmployeeNumber": "T557","Salary":77.50}
+        ///
+        /// Response body:
+        /// 
+        /// "The teacher is added successfully"
+        ///
+        /// </example>
+        /// <returns>
+        /// string - "The teacher is added successfully"
+        /// </returns>
+        /// 
+
+        [HttpPost(template:"AddTeacher")]
+        public string AddTeacher([FromBody]Teacher NewTeacher)
+        {
+            using(MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+
+                string query = "INSERT INTO teachers(teacherfname, teacherlname, employeenumber, hiredate, salary) VALUES(@fname, @lname, @emp_num, CURRENT_DATE(), @salary)";
+
+
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = query;
+
+                Command.Parameters.AddWithValue("@fname", NewTeacher.TeacherFName);
+                Command.Parameters.AddWithValue("@lname", NewTeacher.TeacherLName);
+                Command.Parameters.AddWithValue("@emp_num", NewTeacher.EmployeeNumber);
+                Command.Parameters.AddWithValue("@salary", NewTeacher.Salary);
+
+                Command.ExecuteNonQuery();
+
+                
+
+            }
+
+
+            return $"The teacher is added successfully";
+        }
+
+        /// <summary>
+        /// This endpoint receives an id and deletes that teacher from teachers table in mysql database.
+        /// </summary>
+        /// <param name="TeacherId">The parameters is the id of the teacher that we want to delete.</param>
+        /// <example>
+        /// DELETE: api/Teacher/DeleteTeacher/5 -> 1
+        /// DELETE: api/Teacher/DeleteTeacher/12 -> 1
+        /// DELETE: api/Teacher/DeleteTeacher/32 -> 0    (A row in the table 'teachers' with id 32 does not exist)
+        /// DELETE: api/Teacher/DeleteTeacher/5 -> 0     (The record is already deleted)
+        /// </example>
+        /// <returns>
+        /// 1 -> If the record is deleted
+        /// 0 -> If the record is not deleted
+        /// </returns>
+        /// 
+
+        [HttpDelete(template:"DeleteTeacher/{TeacherId}")]
+        public int DeleteTeacher(int TeacherId)
+        {
+             using(MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+
+                string query = "DELETE FROM teachers WHERE teacherid = @id";
+
+                MySqlCommand Command = Connection.CreateCommand();
+                
+                Command.CommandText = query;
+
+                Command.Parameters.AddWithValue("@id", TeacherId);
+
+                return Command.ExecuteNonQuery();
+            }
+        }
     }
 }
