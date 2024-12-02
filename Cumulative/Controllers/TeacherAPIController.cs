@@ -193,7 +193,7 @@ namespace Cumulative.Controllers
         /// 
 
         [HttpDelete(template:"DeleteTeacher/{TeacherId}")]
-        public int DeleteTeacher(int TeacherId)
+        public string DeleteTeacher(int TeacherId)
         {
              using(MySqlConnection Connection = _context.AccessDatabase())
             {
@@ -207,7 +207,14 @@ namespace Cumulative.Controllers
 
                 Command.Parameters.AddWithValue("@id", TeacherId);
 
-                return Command.ExecuteNonQuery();
+                int rowsAffected = Command.ExecuteNonQuery();
+
+                if(rowsAffected == 0)
+                {
+                    return $"Teacher with ID {TeacherId} does not exist or already has been deleted.";
+                }
+                
+                return "The teacher was deleted successfully";
             }
         }
     }
