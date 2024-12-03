@@ -125,6 +125,85 @@ namespace Cumulative.Controllers
             return SelectedStudent;
         }
 
+        /// <summary>
+        /// This API conroller inserts a new student record to the students table in database.
+        /// </summary>
+        /// <example>
+        /// POST:
+        /// Header -> Content-Type: application/json
+        /// Header -> Accept: text/plain
+        /// Body -> {"studentFName":"Jep","studentLName":"Duo","studentNumber":"N394","enrolDate":"2024-02-10"}
+        /// 
+        /// </example>
+
+        [HttpPost]
+        [Route(template:"AddStudent")]
+
+        public string AddStudent(Student NewStudent)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+
+                string query = "INSERT INTO students(studentfname, studentlname, studentnumber, enroldate) VALUES(@fname, @lname, @stunumber, @enroldate)";
+
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = query;
+
+                Command.Parameters.AddWithValue("@fname", NewStudent.StudentFName);
+                Command.Parameters.AddWithValue("@lname", NewStudent.StudentLName);
+                Command.Parameters.AddWithValue("@stunumber", NewStudent.StudentNumber);
+                Command.Parameters.AddWithValue("@enroldate", NewStudent.EnrolDate);
+
+                Command.ExecuteNonQuery();
+            }
+
+            return "The student has been added successfully";
+        }
+
+        /// <summary>
+        /// This API controller is for deleting a student record by adding the student id
+        /// </summary>
+        /// <param name="StudentId">An integer representing the studentid in students tables in school database.</param>
+        /// <example>
+        /// DELETE: api/Student/DeleteStudent/4 -> The student is deleted successfully.
+        /// DELETE: api/Student/DeleteStudent/2 -> The student is deleted successfully.
+        /// DELETE: api/student/DeleteStudent/14 -> The student with inserted id does not exist or already has been deleted.
+        /// </example>
+        /// <returns>
+        /// string:
+        /// If the rows is deleted -> "The student is deleted successfully"
+        /// If the rows is not deleted -> "The student with inserted id does not exist or already has been deleted"
+        /// </returns>
+
+        [HttpDelete]
+        [Route(template:"DeleteStudent/{StudentId}")]
+
+        public string DeleteStudent(int StudentId)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+
+                string query = "DELETE FROM students WHERE studentid = @id";
+
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = query;
+
+                Command.Parameters.AddWithValue("@id", StudentId);
+
+                int RowsAffected = Command.ExecuteNonQuery();
+
+                if(RowsAffected == 0)
+                {
+                    return "The student with inserted id does not exist or already has been deleted.";
+                }
+
+                return "The student is deleted successfully";
+            }
+        }
     }
 
 }

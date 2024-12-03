@@ -106,5 +106,99 @@ namespace Cumulative.Controllers
             }
             return SelectedCourse;
         }
+
+        /// <summary>
+        /// This API Controller takes the information about a course and insert into the courses table in the database.
+        /// </summary>
+        /// <example>
+        /// POST
+        /// 
+        /// Request body:
+        /// 
+        ///{"CourseCode":"Http3453","TeacherId":4,"StartDate": "2023-02-12","EndDate":"2024-05-10","CourseName":"Full-stack Development"}
+        ///
+        /// Response body:
+        /// 
+        /// "The course is added successfully"
+        ///
+        /// </example>
+        /// <returns>
+        /// string - "The course is added successfully"
+        /// </returns>
+        /// 
+
+        [HttpPost(template: "AddCourse")]
+        public string AddCourse([FromBody]Course NewCourse)
+        {
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+
+                string query = "INSERT INTO courses(coursecode, teacherid, startdate, finishdate, coursename) VALUES(@code, @teacher, @start, @finish, @name)";
+
+
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = query;
+
+                Command.Parameters.AddWithValue("@code", NewCourse.CourseCode);
+                Command.Parameters.AddWithValue("@teacher", NewCourse.TeacherId);
+                Command.Parameters.AddWithValue("@start", NewCourse.StartDate);
+                Command.Parameters.AddWithValue("@finish", NewCourse.EndDate);
+                Command.Parameters.AddWithValue("@name", NewCourse.CourseName);
+
+                Command.ExecuteNonQuery();
+
+
+
+            }
+
+
+            return $"The course is added successfully";
+        }
+
+        /// <summary>
+        /// This API controller receives an id for a course and delete that course.
+        /// </summary>
+        /// <param name="CourseId">An integer representing the id of the course.</param>
+        /// <example>
+        /// GET: api/Courses/DeleteCourse/5 -> "Deleted the course with id 5 successfully"
+        /// GET: api/Courses/DeleteCourse/8 -> "Deleted the course with id 8 successfully"
+        /// GET: api/Course/DeleteCourse/5 -> "The course with id 5 does not exist or already has been deleted"
+        /// </example>
+        /// <return>
+        /// Returns a string indicating the information whether the course is deleted or not
+        /// </return>
+        /// 
+
+        [HttpDelete]
+        [Route(template:"DeleteCourse/{CourseId}")]
+
+        public string DeleteCourse(int CourseId)
+        {
+            using(MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+
+                string query = "DELETE FROM courses WHERE courseid = @id";
+
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = query;
+
+                Command.Parameters.AddWithValue("@id", CourseId);
+
+                int RowsAffected = Command.ExecuteNonQuery();
+
+                if(RowsAffected == 0)
+                {
+                    return $"The course with id {CourseId} does not exist or already has been deleted";
+
+                }
+                return $"Deleted the course with id {CourseId} successfully";
+            }
+
+        }
+
     }
 }
