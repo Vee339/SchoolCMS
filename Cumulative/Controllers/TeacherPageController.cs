@@ -95,5 +95,32 @@ namespace Cumulative.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        [Route("TeacherPage/Edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            Teacher SelectedTeacher = _api.GiveTeacherInfo(id);
+
+            return View(SelectedTeacher);
+        }
+
+        [HttpPost]
+        [Route("TeacherPage/Update/{id}")]
+
+        public IActionResult Update(int id, string fname, string lname, string employee_number, DateTime hire_date, decimal salary)
+        {
+            Teacher UpdatedTeacher = new Teacher();
+
+            UpdatedTeacher.TeacherFName = fname;
+            UpdatedTeacher.TeacherLName = lname;
+            UpdatedTeacher.EmployeeNumber = employee_number;
+            UpdatedTeacher.HireDate = Convert.ToDateTime(hire_date);
+            UpdatedTeacher.Salary = salary;
+
+            Teacher ChangedTeacher = _api.UpdateTeacher(id, UpdatedTeacher);
+            return View(ChangedTeacher);
+            
+        }
     }
 }

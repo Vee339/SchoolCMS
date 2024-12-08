@@ -133,8 +133,11 @@ namespace Cumulative.Controllers
         /// <example>
         /// POST
         /// 
-        /// Request body:
+        /// Header: 
+        /// Accept: text/plain
+        /// Content-type: application/json
         /// 
+        /// Request body: 
         ///{"TeacherFName":"John","TeacherLName":"Doe","EmployeeNumber": "T557","Salary":77.50}
         ///
         /// Response body:
@@ -216,6 +219,66 @@ namespace Cumulative.Controllers
                 
                 return "The teacher was deleted successfully";
             }
+        }
+        /// <summary>
+        /// This API endpoint would update a teacher record in the database.
+        /// </summary>
+        /// <params name="TeacherId">This parameter is the id of the teacher which needs to be updated</params>
+        /// <param name="TeacherData">The data of the teacher that is to change.</param>
+        /// <example>
+        /// PUT: api/Teacher/UpdateTeacher/14
+        /// Headers: Content-Type: application/json
+        /// Request Body:
+        /// {
+        ///     "TeacherFName":"Bob",
+        ///     "TeacherLName":"James",
+        ///     "EmployeeNumber":"T128",
+        ///     "HireDate":"2020-02-04",
+        ///     "Salary":55.00
+        /// }
+        /// ->
+        /// {
+        ///     "TeacherId":14,
+        ///     "TeacherFName":"Bob",
+        ///     "TeacherLName":"James",
+        ///     "EmployeeNumber":"T128",
+        ///     "HireDate":"2020-02-04",
+        ///     "Salary":55.00
+        /// }
+        /// </example>
+        /// <returns>
+        /// The teacher object representing the row from teachers table which has been changed.
+        /// </returns>
+        /// 
+
+        [HttpPut]
+        [Route(template:"UpdateTeacher/{TeacherId}")]
+        public Teacher UpdateTeacher(int TeacherId, [FromBody] Teacher TeacherData)
+        {
+            using(MySqlConnection Connection = _context.AccessDatabase())
+            {
+                // Opening the connection
+                Connection.Open();
+
+                // query
+                string query = "UPDATE teachers SET teacherfname = @fname, teacherlname = @lname, employeenumber = @employeenum, hiredate = @hiredate, salary = @salary WHERE teacherid = @teacherid";
+
+                // creating a mysql command
+                MySqlCommand Command = Connection.CreateCommand();
+
+                // setting query equal to the command text
+                Command.CommandText = query;
+
+                Command.Parameters.AddWithValue("@teacherid", TeacherId);
+                Command.Parameters.AddWithValue("@fname", TeacherData.TeacherFName);
+                Command.Parameters.AddWithValue("@lname", TeacherData.TeacherLName);
+                Command.Parameters.AddWithValue("@employeenum", TeacherData.EmployeeNumber);
+                Command.Parameters.AddWithValue("@hiredate", TeacherData.HireDate);
+                Command.Parameters.AddWithValue("@salary", TeacherData.Salary);
+
+                Command.ExecuteNonQuery();
+            }
+            return GiveTeacherInfo(TeacherId);
         }
     }
 }
