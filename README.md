@@ -40,6 +40,10 @@ In TeacherPage folder:
 
 - Delete: Deletes the record from the database
 
+- Edit: Page that provides user the information about a teacher and allows them to edit it through a form
+
+- Update: Updates the information about the teacher
+
 ## Features and Functionality
 
 ### API Endpoints
@@ -48,6 +52,8 @@ GET /api/teacher/ListTeachers: Returns all teachers.
 
 GET /api/teachers/GiveTeacherInfo/{TeacherId}: Returns a teacher by ID.
 
-POST /api/teachers/AddTeacher: Adds a new teacher.
+POST /api/teacher/AddTeacher: Adds a new teacher.
 
-DELETE /api/teachers/DeleteTeacher/{TeacherId}: Deletes a teacher by ID.
+DELETE /api/teacher/DeleteTeacher/{TeacherId}: Deletes a teacher by ID.
+
+PUT /api/teacher/UpdateTeacher/{TeacherId}, Request body: {Teacher} -> Updates the teacher information
